@@ -1,132 +1,226 @@
-import { ArrowRight, Package, ShieldCheck, Truck, Zap } from "lucide-react";
+import {
+  ChevronRight,
+  RotateCcw,
+  ShieldCheck,
+  ShoppingCart,
+  Trophy,
+  Truck,
+} from "lucide-react";
 import { motion } from "framer-motion";
-import FeatureCard from "../components/feature-card";
 import ProductCard from "../components/product-card";
 import { categories } from "../data/categories";
+
+function PromoCard({
+  size = "small",
+  badge,
+  title,
+  highlight,
+  image,
+  imageAlt,
+  bg = "bg-[#f7e6df]",
+  imageClassName = "",
+  from = "right",
+  delay = 0,
+  setView,
+}) {
+  const isLarge = size === "large";
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, x: from === "left" ? -90 : 90 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{
+        duration: 0.65,
+        delay,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className={`group relative overflow-hidden ${bg} ${
+        isLarge ? "min-h-[520px] p-8 md:p-12" : "min-h-[245px] p-7"
+      }`}
+    >
+      {/* Subtle background pattern */}
+      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-white/25" />
+      <div className="pointer-events-none absolute -bottom-32 left-1/3 h-80 w-80 rotate-45 bg-white/15" />
+
+      <div className="relative z-10 flex h-full flex-col justify-center">
+        {badge && (
+          <span className="mb-6 w-fit rounded-full bg-white px-4 py-2 text-xs font-black uppercase tracking-wide text-slate-700 shadow-sm">
+            {badge}
+          </span>
+        )}
+
+        <h2
+          className={`max-w-[420px] font-medium tracking-[-0.04em] text-slate-950 ${
+            isLarge
+              ? "text-4xl leading-tight md:text-5xl"
+              : "text-3xl leading-tight"
+          }`}
+        >
+          {title}
+          {highlight && (
+            <>
+              <br />
+              <span
+                className={`font-black ${
+                  isLarge ? "text-6xl md:text-7xl" : "text-4xl"
+                }`}
+              >
+                {highlight}
+              </span>
+            </>
+          )}
+        </h2>
+
+        <button
+          type="button"
+          onClick={() => setView("shop")}
+          className="mt-8 flex w-fit items-center gap-2 border-b-2 border-brand-500 pb-2 text-base font-black text-slate-800 transition-colors duration-200 hover:text-brand-600"
+        >
+          Shop Now
+          <ChevronRight
+            size={18}
+            className="transition-transform duration-200 group-hover:translate-x-1"
+          />
+        </button>
+      </div>
+
+      <motion.img
+        src={image}
+        alt={imageAlt}
+        animate={{ y: [0, -8, 0] }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className={`pointer-events-none absolute z-10 object-contain ${imageClassName}`}
+      />
+    </motion.article>
+  );
+}
+
+function ServiceBenefitsBar() {
+  const benefits = [
+    {
+      icon: ShoppingCart,
+      title: "Free Shipping",
+      text: "When ordering over £100",
+    },
+    {
+      icon: RotateCcw,
+      title: "Free Return",
+      text: "Get return within 30 days",
+    },
+    {
+      icon: ShieldCheck,
+      title: "Secure Payment",
+      text: "100% secure online payment",
+    },
+    {
+      icon: Trophy,
+      title: "Best Quality",
+      text: "Original product guaranteed",
+    },
+  ];
+
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 90 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false, amount: 0.35 }}
+      transition={{
+        duration: 0.55,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="my-8 bg-white px-6 py-8 shadow-sm md:px-10"
+    >
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {benefits.map((benefit, index) => {
+          const Icon = benefit.icon;
+
+          return (
+            <motion.div
+              key={benefit.title}
+              initial={{ opacity: 0, y: 35 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, amount: 0.45 }}
+              transition={{
+                duration: 0.45,
+                delay: index * 0.08,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="flex items-center gap-5"
+            >
+              <div className="shrink-0 text-brand-600">
+                <Icon size={38} strokeWidth={1.4} />
+              </div>
+
+              <div>
+                <h3 className="text-md font-black text-slate-950">
+                  {benefit.title}
+                </h3>
+                <p className="mt-1 text-sm font-medium text-slate-500">
+                  {benefit.text}
+                </p>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </motion.section>
+  );
+}
 
 export default function Home({ products, addToCart, setView }) {
   const featured = products.filter((product) => product.featured).slice(0, 8);
 
   return (
     <>
-      <section className="grid gap-6 lg:grid-cols-[1fr_380px]">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-          className="hero-grid-bg relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand-50 via-white to-slate-100 p-8 md:p-12"
-        >
-          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand-200/60 blur-3xl" />
-          <div className="absolute -bottom-24 left-1/3 h-72 w-72 rounded-full bg-blue-200/50 blur-3xl" />
-
-          <div className="relative grid gap-10 md:grid-cols-[1fr_420px] md:items-center">
-            <div>
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-brand-700 shadow-sm">
-                <Zap size={16} />
-                Tech deals live now
-              </div>
-
-              <h1 className="max-w-2xl text-5xl font-black leading-none tracking-[-0.07em] text-slate-950 md:text-7xl">
-                Upgrade your world with next-gen tech
-              </h1>
-
-              <p className="mt-6 max-w-xl text-base leading-8 text-slate-600">
-                Discover premium laptops, phones, audio gear and smart devices
-                in a clean, professional e-commerce experience.
-              </p>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                <button
-                  onClick={() => setView("shop")}
-                  className="group flex items-center gap-2 rounded-full bg-brand-600 px-7 py-4 font-black text-white shadow-lg shadow-brand-200 transition hover:bg-brand-700"
-                >
-                  Shop now
-                  <ArrowRight size={18} className="transition group-hover:translate-x-1" />
-                </button>
-
-                <button
-                  onClick={() => setView("admin")}
-                  className="rounded-full border border-slate-200 bg-white px-7 py-4 font-black text-slate-950 transition hover:bg-slate-50"
-                >
-                  Admin demo
-                </button>
-              </div>
-            </div>
-
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="rounded-[2rem] bg-white p-4 shadow-2xl shadow-brand-200/60"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=1200"
-                alt="Premium laptop"
-                className="h-72 w-full rounded-3xl object-cover"
-              />
-
-              <div className="mt-4 flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-bold text-slate-500">Featured deal</p>
-                  <h3 className="font-black text-slate-950">AeroBook Pro Laptop</h3>
-                </div>
-
-                <div className="text-right">
-                  <p className="text-xs font-black uppercase text-brand-600">From</p>
-                  <strong className="text-2xl font-black text-slate-950">£1199</strong>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
+      <section className="grid gap-6 lg:grid-cols-[1.7fr_0.9fr]">
+        <PromoCard
+          size="large"
+          from="left"
+          delay={0.05}
+          badge="New Released"
+          title="Apple Wireless"
+          highlight="Samsung S22"
+          image="/images/samsung-galaxy-pink.png"
+          imageAlt="Samsung phone"
+          bg="bg-[#f8e6e0]"
+          imageClassName="bottom-10 right-2 h-[290px] md:right-8 md:h-[390px] lg:h-[420px]"
+          setView={setView}
+        />
 
         <div className="grid gap-6">
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.45, delay: 0.1 }}
-            className="relative overflow-hidden rounded-[2rem] bg-slate-950 p-8 text-white"
-          >
-            <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-brand-600/40 blur-2xl" />
+          <PromoCard
+            from="right"
+            delay={0.18}
+            badge="Wearables"
+            title="Apple"
+            highlight="Smart Watch"
+            image="/images/apple-watch-blue.png"
+            imageAlt="Smart watch"
+            bg="bg-[#d8f1ff]"
+            imageClassName="-right-5 bottom-1 h-[175px] md:h-[210px]"
+            setView={setView}
+          />
 
-            <p className="text-sm font-black uppercase tracking-widest text-brand-200">
-              Audio Sale
-            </p>
-            <h3 className="mt-3 text-3xl font-black tracking-tight">
-              Wireless sound, lower prices
-            </h3>
-            <p className="mt-3 text-slate-300">Save up to 30% on selected headphones.</p>
-
-            <button
-              onClick={() => setView("shop")}
-              className="mt-6 rounded-full bg-white px-5 py-3 text-sm font-black text-slate-950"
-            >
-              Browse audio
-            </button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.45, delay: 0.2 }}
-            className="rounded-[2rem] border border-slate-200 bg-white p-8"
-          >
-            <p className="text-sm font-black uppercase tracking-widest text-brand-600">
-              New Arrivals
-            </p>
-            <h3 className="mt-3 text-3xl font-black tracking-tight text-slate-950">
-              Smart watches are here
-            </h3>
-            <p className="mt-3 text-slate-500">Track fitness, calls and notifications.</p>
-
-            <button
-              onClick={() => setView("shop")}
-              className="mt-6 rounded-full bg-brand-50 px-5 py-3 text-sm font-black text-brand-700"
-            >
-              View wearables
-            </button>
-          </motion.div>
+          <PromoCard
+            from="right"
+            delay={0.28}
+            badge="Gaming"
+            title="Xbox"
+            highlight="Series X"
+            image="/images/xbox.png"
+            imageAlt="Games console"
+            bg="bg-white"
+            imageClassName="-right-6 bottom-0 h-[180px] md:h-[220px]"
+            setView={setView}
+          />
         </div>
       </section>
+
+      <ServiceBenefitsBar />
 
       <section className="my-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {categories.map((category, index) => {
@@ -152,11 +246,7 @@ export default function Home({ products, addToCart, setView }) {
         })}
       </section>
 
-      <section className="my-8 grid gap-4 md:grid-cols-3">
-        <FeatureCard icon={Truck} title="Free shipping" text="International delivery available" />
-        <FeatureCard icon={ShieldCheck} title="Secure checkout" text="Orders stored safely in MySQL" />
-        <FeatureCard icon={Package} title="Stock tracking" text="Inventory updates after checkout" />
-      </section>
+
 
       <section className="my-10 rounded-[2rem] bg-gradient-to-r from-slate-950 via-brand-800 to-brand-600 p-8 text-white md:p-10">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
