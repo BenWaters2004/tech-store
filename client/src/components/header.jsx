@@ -137,7 +137,7 @@ export default function Header({
     { label: "Shop", view: "shop" },
     { label: "About" },
     { label: "Blog" },
-    { label: "Contact" },
+    { label: "Contact", view: "contact" },
   ];
 
   const shopMegaColumns = [

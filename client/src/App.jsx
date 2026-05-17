@@ -6,6 +6,7 @@ import Admin from "./pages/admin";
 import Cart from "./pages/cart";
 import Home from "./pages/home";
 import Shop from "./pages/shop";
+import Contact from "./pages/contact";
 import Footer from "./components/footer";
 
 export default function App() {
@@ -92,6 +93,8 @@ export default function App() {
         )}
 
         {view === "cart" && <Cart cart={cart} setCart={setCart} />}
+
+        {view === "contact" && <Contact />}
 
         {view === "admin" && (
           <Admin
