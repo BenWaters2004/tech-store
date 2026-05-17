@@ -294,29 +294,6 @@ export default function Home({ products, addToCart, setView }) {
           <ProductCard key={product.id} product={product} addToCart={addToCart} />
         ))}
       </section>
-
-      <section className="mt-12 rounded-[2rem] border border-slate-200 bg-white p-8 text-center md:p-10">
-        <p className="text-sm font-black uppercase tracking-widest text-brand-600">
-          Newsletter
-        </p>
-        <h2 className="mt-2 text-4xl font-black tracking-tight text-slate-950">
-          Get the latest tech deals
-        </h2>
-        <p className="mx-auto mt-3 max-w-xl text-slate-500">
-          This is a demo form for your portfolio store. You can connect it later
-          to your backend or email service.
-        </p>
-
-        <form className="mx-auto mt-6 flex max-w-xl flex-col gap-3 rounded-full border border-slate-200 bg-slate-50 p-2 sm:flex-row">
-          <input
-            placeholder="Enter your email"
-            className="flex-1 bg-transparent px-4 py-3 outline-none"
-          />
-          <button className="rounded-full bg-brand-600 px-7 py-3 font-black text-white transition hover:bg-brand-700">
-            Subscribe
-          </button>
-        </form>
-      </section>
     </>
   );
 }

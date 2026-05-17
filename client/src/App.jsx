@@ -6,6 +6,7 @@ import Admin from "./pages/admin";
 import Cart from "./pages/cart";
 import Home from "./pages/home";
 import Shop from "./pages/shop";
+import Footer from "./components/footer";
 
 export default function App() {
   const [view, setView] = useState("home");
@@ -101,6 +102,7 @@ export default function App() {
           />
         )}
       </main>
+      <Footer setView={setView} />
     </div>
   );
 }
