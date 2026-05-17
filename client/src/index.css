@@ -158,3 +158,38 @@ button {
     linear-gradient(90deg, rgba(99, 102, 241, 0.08) 1px, transparent 1px);
   background-size: 36px 36px;
 }
+
+.price-range-input {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 0;
+  transform: translateY(-50%);
+  appearance: none;
+  background: transparent;
+}
+
+.price-range-input::-webkit-slider-thumb {
+  pointer-events: auto;
+  height: 18px;
+  width: 18px;
+  appearance: none;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 3px solid var(--brand-600);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.18);
+}
+
+.price-range-input::-moz-range-thumb {
+  pointer-events: auto;
+  height: 18px;
+  width: 18px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 3px solid var(--brand-600);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.18);
+}
